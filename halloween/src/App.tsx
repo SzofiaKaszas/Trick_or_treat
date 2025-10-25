@@ -17,9 +17,6 @@ function App() {
     const url = "https://retoolapi.dev/uF2pCU/halloween";
     try {
       const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
       const result: DataItem[] = await response.json();
       setData(result);
       setState(true);
@@ -34,13 +31,38 @@ function App() {
     }
   }
 
+  async function handleAddressChange(id: number) {
+    try {
+      await fetch(
+        `https://retoolapi.dev/uF2pCU/halloween/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            isThereSweets: false,
+          }),
+        }
+      );
+      
+      await fetchData();
+    } catch (error) {
+      console.error("Error updating data:", error);
+    }
+  }
+
   return (
     <>
       {state ? (
         <>
           <Summary data={data}></Summary>
           {data.map((item) => (
-            <DataWrite key={item.id} data={item}></DataWrite>
+            <DataWrite
+              key={item.id}
+              data={item}
+              onAddressChnage={handleAddressChange}
+            ></DataWrite>
           ))}
           <Footer></Footer>
         </>

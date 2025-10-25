@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import type { DataItem, DataWriteItem } from "./interfaces";
 
-export function DataWrite(props: { data: DataItem }) {
+export function DataWrite(props: {
+  data: DataItem;
+  onAddressChnage: (id: number) => void;
+}) {
   const [writeData, setWriteData] = useState<DataWriteItem>({
     address: "",
     id: 0,
@@ -24,11 +27,12 @@ export function DataWrite(props: { data: DataItem }) {
   return (
     <>
       {
-        <div key={writeData.id}>
+        <div>
           <p>{writeData.name}</p>
           <p>{writeData.address}</p>
           <p>{writeData.intolerances}</p>
           <p>{writeData.isThereSweets}</p>
+          <button onClick={() => props.onAddressChnage(writeData.id)}>Out of candy</button>
           <hr />
         </div>
       }
