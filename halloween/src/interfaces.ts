@@ -5,3 +5,11 @@ export interface DataItem {
   isThereSweets: boolean;
   name: string;
 }
+
+export interface DataWriteItem {
+  address: string;
+  id: number;
+  intolerances: string;
+  isThereSweets: string;
+  name: string;
+}
