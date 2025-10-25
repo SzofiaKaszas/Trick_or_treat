@@ -39,7 +39,9 @@ function App() {
       {state ? (
         <>
           <Summary data={data}></Summary>
-          <DataWrite data={data}></DataWrite>
+          {data.map((item) => (
+            <DataWrite key={item.id} data={item}></DataWrite>
+          ))}
           <Footer></Footer>
         </>
       ) : (
