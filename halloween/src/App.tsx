@@ -1,13 +1,24 @@
 import { useEffect, useState } from "react";
-import "./App.css";
 import type { DataItem } from "./interfaces";
 import { DataWrite } from "./DataWrite";
 import { Summary } from "./Summary";
 import { Footer } from "./Footer";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
 
 function App() {
   const [state, setState] = useState(false);
   const [data, setData] = useState<DataItem[]>([]);
+  const [isDesktop, setIsDesktop] = useState(
+    window.matchMedia("(min-width: 768px)").matches
+  );
+
+  useEffect(() => {
+    const handler = (e: any) => setIsDesktop(e.matches); // useeffect chatgpt-vel => https://chatgpt.com/share/690131bc-356c-8005-83b2-7b7cf998e6cd
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+    mediaQuery.addEventListener("change", handler);
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -33,19 +44,16 @@ function App() {
 
   async function handleAddressChange(id: number) {
     try {
-      await fetch(
-        `https://retoolapi.dev/uF2pCU/halloween/${id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            isThereSweets: false,
-          }),
-        }
-      );
-      
+      await fetch(`https://retoolapi.dev/uF2pCU/halloween/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          isThereSweets: false,
+        }),
+      });
+
       await fetchData();
     } catch (error) {
       console.error("Error updating data:", error);
@@ -55,19 +63,41 @@ function App() {
   return (
     <>
       {state ? (
-        <>
-          <Summary data={data}></Summary>
-          {data.map((item) => (
-            <DataWrite
-              key={item.id}
-              data={item}
-              onAddressChnage={handleAddressChange}
-            ></DataWrite>
-          ))}
-          <Footer></Footer>
-        </>
+        isDesktop ? (
+          <div className="container">
+            <Summary data={data}></Summary>
+            <div className="row">
+              {data.map((item) => (
+                <DataWrite
+                  key={item.id}
+                  data={item}
+                  onAddressChnage={handleAddressChange}
+                  variant="desktop"
+                ></DataWrite>
+              ))}
+            </div>
+            <Footer></Footer>
+          </div>
+        ) : (
+          <>
+            <Summary data={data}></Summary>
+            <ul className="list-group">
+              {data.map((item) => (
+                <DataWrite
+                  key={item.id}
+                  data={item}
+                  onAddressChnage={handleAddressChange}
+                  variant="mobile"
+                ></DataWrite>
+              ))}
+            </ul>
+            <Footer></Footer>
+          </>
+        )
       ) : (
-        <p>Loading data...</p>
+        <div className="spinner-border text-warning" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
       )}
     </>
   );
