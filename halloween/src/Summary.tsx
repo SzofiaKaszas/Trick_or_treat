@@ -9,7 +9,7 @@ export function Summary(props: { data: DataItem[] }) {
       howManyWithSweets++;
     }
 
-    if (address.intolerances.trim() !== "") {
+    if (address.intolerances.trim() !== "" && address.isThereSweets) {
       howManyIntolerants++;
     }
   });
