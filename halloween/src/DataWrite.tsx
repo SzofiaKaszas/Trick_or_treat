@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { DataItem, DataWriteItem } from "./interfaces";
+import type { DataItem } from "./interfaces";
 
 export function DataWrite(props: {
   data: DataItem;
@@ -13,8 +13,7 @@ export function DataWrite(props: {
     isThereSweets: true,
     name: "",
   });
-  const spiderWebSrc =
-    "https://wallpapers.com/images/hd/corner-spider-web-graphic-67wxs8wd96u33t8j.jpg";
+  const spiderWebSrc = "spider-web.svg";
 
   useEffect(() => {
     let intolerance = props.data.intolerances;
@@ -24,17 +23,16 @@ export function DataWrite(props: {
         intolerance = "none";
         break;
       case "gluten":
-        intolerance = "https://www.svgrepo.com/show/443651/food-no-gluten.svg";
+        intolerance = "gluten-free.svg";
         break;
       case "lactose":
-        intolerance = "https://www.svgrepo.com/show/509875/dairy-free.svg";
+        intolerance = "lactose-free.svg";
         break;
       case "peanut":
-        intolerance =
-          "https://uxwing.com/wp-content/themes/uxwing/download/signs-and-symbols/peanuts-free-sign-outline-icon.png";
+        intolerance = "/peanut-free.svg";
         break;
       case "soy":
-        intolerance = "https://static.thenounproject.com/png/4652008-200.png";
+        intolerance = "/soy-free.svg";
         break;
       default:
         intolerance = "none";
@@ -56,7 +54,8 @@ export function DataWrite(props: {
     }
     return (
       <>
-        Intolerances: <img
+        Intolerances:{" "}
+        <img
           src={writeData.intolerances}
           className="img-fluid"
           alt="Intolerance"
@@ -69,35 +68,57 @@ export function DataWrite(props: {
   const isMobile = props.variant === "mobile";
   const sweetsText = writeData.isThereSweets ? "yes" : "no";
 
-  const Content = (
-    <>
-      <img src={spiderWebSrc} className="spiderweb-card" alt="Spiderweb" />
-      {isMobile ? null : <h6 className="card-title">Address: {writeData.address}</h6>}
-      Parent: {writeData.name} <br />
-      {renderIntoleranceImage()}
-      Is there sweets left: {sweetsText}
-      <br />
-      <button
-        className="btn"
-        onClick={() => props.onAddressChnage(writeData.id)}
-        disabled={!writeData.isThereSweets}
-      >
-        Out of candy
-      </button>
-    </>
-  );
-
   if (isMobile) {
     return (
-      <li className={`list-group-item ${!writeData.isThereSweets ? "no-sweets" : ""}`}>
-        {Content}
+      <li
+        className={`list-group-item ${
+          !writeData.isThereSweets ? "no-sweets" : ""
+        }`}
+      >
+        <img src={spiderWebSrc} className="spiderweb-card" alt="Spiderweb" />
+        <h6>Address: {writeData.address}</h6>
+        <p className="card-text">
+          Parent: {writeData.name} <br />
+          {renderIntoleranceImage()}
+          Is there sweets left: {sweetsText}
+          <br />
+          <button
+            className="btn"
+            onClick={() => props.onAddressChnage(writeData.id)}
+            disabled={!writeData.isThereSweets}
+          >
+            Out of candy
+          </button>
+        </p>
       </li>
     );
   }
 
   return (
-    <div className={`card col-md-2 mb-4 ms-2 ${!writeData.isThereSweets ? "no-sweets" : ""}`}>
-      <div className="card-body">{Content}</div>
+    <div
+      className={`card col-md-2 mb-4 ms-2 ${
+        !writeData.isThereSweets ? "no-sweets" : ""
+      }`}
+    >
+      <img src={spiderWebSrc} className="spiderweb-card" alt="Spiderweb" />
+      <div className="card-body">
+        {isMobile ? null : (
+          <h6 className="card-title">Address: {writeData.address}</h6>
+        )}
+        <p className="card-text">
+          Parent: {writeData.name} <br />
+          {renderIntoleranceImage()}
+          Is there sweets left: {sweetsText}
+          <br />
+          <button
+            className="btn"
+            onClick={() => props.onAddressChnage(writeData.id)}
+            disabled={!writeData.isThereSweets}
+          >
+            Out of candy
+          </button>
+        </p>
+      </div>
     </div>
   );
 }
