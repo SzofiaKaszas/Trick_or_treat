@@ -10,12 +10,12 @@ function App() {
   const [state, setState] = useState(false);
   const [data, setData] = useState<DataItem[]>([]);
   const [isDesktop, setIsDesktop] = useState(
-    window.matchMedia("(min-width: 768px)").matches
+    window.matchMedia("(min-width: 1024px)").matches
   );
 
   useEffect(() => {
     const handler = (e: any) => setIsDesktop(e.matches); // useeffect chatgpt-vel => https://chatgpt.com/share/690131bc-356c-8005-83b2-7b7cf998e6cd
-    const mediaQuery = window.matchMedia("(min-width: 768px)");
+    const mediaQuery = window.matchMedia("(min-width: 1024px)");
     mediaQuery.addEventListener("change", handler);
     return () => mediaQuery.removeEventListener("change", handler);
   }, []);
@@ -64,9 +64,10 @@ function App() {
     <>
       {state ? (
         isDesktop ? (
-          <div className="container">
-            <Summary data={data}></Summary>
-            <div className="row">
+          <>
+          <Summary data={data}></Summary>
+          <div className="container-fluid d-flex justify-content-around flex-wrap">
+            <div className="row justify-content-center">
               {data.map((item) => (
                 <DataWrite
                   key={item.id}
@@ -76,8 +77,9 @@ function App() {
                 ></DataWrite>
               ))}
             </div>
-            <Footer></Footer>
           </div>
+          <Footer></Footer>
+          </>
         ) : (
           <>
             <Summary data={data}></Summary>

@@ -14,12 +14,14 @@ export function Summary(props: { data: DataItem[] }) {
     }
   });
   return (
-    <>
-      There are this many houses: {props.data.length} <br />
-      There's still candy: {howManyWithSweets}
-      <br />
-      There are this many places where food intolerances are taken care of:{" "}
-      {howManyIntolerants}
-    </>
+    <header>
+      <div className="container-fluid">
+        <div className="row text-center align-items-center">
+          <div className="col nav-item">Houses: {props.data.length} </div>
+          <div className="col nav-item">Has candy: {howManyWithSweets}</div>
+          <div className="col nav-item">Can care for intolerants: {howManyIntolerants}</div>
+        </div>
+      </div>
+    </header>
   );
 }

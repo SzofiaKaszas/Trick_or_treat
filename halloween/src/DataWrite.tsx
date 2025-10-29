@@ -35,10 +35,11 @@ export function DataWrite(props: {
       <>
         {
           <li className="list-group-item">
+            <img src="https://wallpapers.com/images/hd/corner-spider-web-graphic-67wxs8wd96u33t8j.jpg" className="spiderweb-card"></img>
             {writeData.address} - {writeData.name} - {writeData.intolerances} -{" "}
             {writeData.isThereSweets}
             <br />
-            <button onClick={() => props.onAddressChnage(writeData.id)}>
+            <button className="btn" onClick={() => props.onAddressChnage(writeData.id)}>
               Out of candy
             </button>
           </li>
@@ -50,14 +51,15 @@ export function DataWrite(props: {
   return (
     <>
       {
-        <div className="card col-md-4 mb-4">
+        <div className="card col-md-2 mb-4 ms-2">
+          <img src="https://wallpapers.com/images/hd/corner-spider-web-graphic-67wxs8wd96u33t8j.jpg" className="spiderweb-card"></img>
           <div className="card-body">
             <h5 className="card-title">{writeData.address}</h5>
             <p className="card-text">
               {writeData.name} - {writeData.intolerances} -{" "}
               {writeData.isThereSweets}
             </p>
-            <button onClick={() => props.onAddressChnage(writeData.id)}>
+            <button className="btn" onClick={() => props.onAddressChnage(writeData.id)}>
               Out of candy
             </button>
           </div>
