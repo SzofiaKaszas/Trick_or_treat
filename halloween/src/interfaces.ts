@@ -9,7 +9,7 @@ export interface DataItem {
 export interface DataWriteItem {
   address: string;
   id: number;
-  intolerances: string;
-  isThereSweets: string;
+  intolerancImgSrc: string;
+  isThereSweets: boolean;
   name: string;
 }
